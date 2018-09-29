@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.split;
 
 import java.io.File;
@@ -34,12 +35,14 @@ import com.alipay.rdf.file.util.TestLog;
 
 import junit.framework.Assert;
 
+*/
 /**
  * 对文件体进行分片
  * 
  * @author hongwei.quhw
  * @version $Id: NasSplitBodyTest.java, v 0.1 2017年8月1日 上午11:31:24 hongwei.quhw Exp $
- */
+ *//*
+
 public class NasSplitBodyTest {
     private static final String             templatePath = "/split/headslice/test.json";
     private Map<String, ProtocolDefinition> PD_CACHE     = null;
@@ -353,3 +356,4 @@ public class NasSplitBodyTest {
         tf.delete();
     }
 }
+*/

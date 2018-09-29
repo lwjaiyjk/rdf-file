@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.reader;
 
 import java.math.BigDecimal;
@@ -18,11 +19,13 @@ import com.alipay.rdf.file.protocol.ProtocolDefinition;
 import com.alipay.rdf.file.util.BeanMapWrapper;
 import com.alipay.rdf.file.util.DateUtil;
 
+*/
 /**
  * 
  * @author hongwei.quhw
  * @version $Id: FundBodyCodecTest.java, v 0.1 2016-12-27 下午4:15:39 hongwei.quhw Exp $
- */
+ *//*
+
 public class FundBodyCodecTest {
 
     @Test
@@ -248,3 +251,4 @@ public class FundBodyCodecTest {
         Assert.assertEquals("0012005", line);
     }
 }
+*/

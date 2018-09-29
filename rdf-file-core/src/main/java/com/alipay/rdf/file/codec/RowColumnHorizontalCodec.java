@@ -38,13 +38,13 @@ public class RowColumnHorizontalCodec {
 
     public static String serialize(BeanMapWrapper bmw, FileConfig fileConfig, RowDefinition rd,
                                    Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,
-                                   FileDataTypeEnum rowType) {
+                                   FileDataTypeEnum rowType,String bodyTemplateName) {
         ProcessExecutor.execute(ProcessorTypeEnum.BEFORE_SERIALIZE_ROW, processors, fileConfig,
             new BizData(RdfFileConstants.DATA, bmw),
             new BizData(RdfFileConstants.ROW_TYPE, rowType));
 
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
-        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType);
+        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType,bodyTemplateName);
         StringBuffer line = new StringBuffer();
         String split = ProtocolLoader.loadProtocol(fileMeta.getProtocol()).getRowSplit()
             .getSplit(fileConfig);
@@ -99,7 +99,6 @@ public class RowColumnHorizontalCodec {
             new BizData(RdfFileConstants.ROW_TYPE, rowType));
 
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
-        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType);
 
         boolean startWithSplit = fileMeta.isStartWithSplit(rowType);
         boolean endWithSplit = fileMeta.isEndWithSplit(rowType);
@@ -107,6 +106,13 @@ public class RowColumnHorizontalCodec {
         String[] column = ProtocolLoader.loadProtocol(fileMeta.getProtocol()).getRowSplit()
             .split(new SplitContext(line, fileConfig, rowType));
 
+        List<FileColumnMeta> columnMetas = null;
+
+        if(rowType.equals(FileDataTypeEnum.BODY)){
+            columnMetas = fileMeta.getCurBodyTemplateColMetas(column);
+        }else{
+            columnMetas = fileMeta.getColumns(rowType,null);
+        }
         int splitLength = startWithSplit ? columnMetas.size() + 1 : columnMetas.size();
         splitLength = endWithSplit ? splitLength + 1 : splitLength;
         

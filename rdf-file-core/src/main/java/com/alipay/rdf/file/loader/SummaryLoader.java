@@ -3,6 +3,7 @@ package com.alipay.rdf.file.loader;
 import com.alipay.rdf.file.exception.RdfErrorEnum;
 import com.alipay.rdf.file.exception.RdfFileException;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
 import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.meta.SummaryPairMeta;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
@@ -10,6 +11,8 @@ import com.alipay.rdf.file.model.Summary;
 import com.alipay.rdf.file.spi.RdfFileColumnTypeSpi;
 import com.alipay.rdf.file.spi.RdfFileSummaryPairSpi;
 import com.alipay.rdf.file.util.RdfFileUtil;
+
+import java.util.List;
 
 /**
  * Copyright (C) 2013-2018 Ant Financial Services Group
@@ -104,7 +107,13 @@ public class SummaryLoader {
             }
         }
 
-        FileColumnMeta bodyColMeta = fileMeta.getBodyColumn(columnKey);
+        List<FileConditionBodyMeta> fileConditionBodyMetas = fileMeta.getBodyCondMetaColumns();
+        if (null == fileConditionBodyMetas || fileConditionBodyMetas.size() != 1){
+            throw new RdfFileException(
+                    "rdf-file#SummaryPair 对应的body模板不止一个，不支持summary操作",
+                    RdfErrorEnum.SUMMARY_DEFINED_ERROR);
+        }
+        FileColumnMeta bodyColMeta = fileMeta.getBodyColumn(fileConditionBodyMetas.get(0).getTemplateName(),columnKey);
 
         //校验
         RdfFileColumnTypeSpi summaryType = ExtensionLoader

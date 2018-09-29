@@ -39,7 +39,7 @@ public class ColumnFunctionWrapper extends RdfFunction {
     }
 
     @Override
-    public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+    public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
         if (!fileMeta.hasColumns(rowType)) {
             return 0;
         }
@@ -49,7 +49,7 @@ public class ColumnFunctionWrapper extends RdfFunction {
         }
 
         if (ColumnLayoutEnum.vertical.equals(rd.getColumnLayout())) {
-            return fileMeta.getColumns(rowType).size();
+            return fileMeta.getColumns(rowType,bodyTemplateName).size();
         }
 
         throw new RdfFileException(

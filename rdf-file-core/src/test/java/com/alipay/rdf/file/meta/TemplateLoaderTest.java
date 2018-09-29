@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.meta;
 
 import java.util.List;
@@ -10,17 +11,21 @@ import com.alipay.rdf.file.exception.RdfFileException;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
 
+*/
 /**
  * 模板加载测试
  * 
  * @author hongwei.quhw
  * @version $Id: TemplateLoaderTest.java, v 0.1 2016-12-22 下午2:01:39 hongwei.quhw Exp $
- */
+ *//*
+
 public class TemplateLoaderTest {
 
-    /**
+    */
+/**
      * 加载gbk编码的模板
-     */
+     *//*
+
     @Test
     public void testTemplateEncoding() {
         FileMeta fileMeta = TemplateLoader.load("/meta/de-gbk.json", "GBK");
@@ -136,9 +141,11 @@ public class TemplateLoaderTest {
         System.out.println(summaryPairs);
     }
 
-    /**
+    */
+/**
      * Date 格式需要制定format格式
-     */
+     *//*
+
     @Test
     public void testDate() {
         try {
@@ -149,12 +156,15 @@ public class TemplateLoaderTest {
         }
     }
 
-    /**
+    */
+/**
      * 测试读取制定文件的编码格式
-     */
+     *//*
+
     @Test
     public void testFileEncoding() {
         FileMeta fileMeta = TemplateLoader.load("/meta/fileconding.json", "UTF-8");
         Assert.assertEquals("UTF-8", fileMeta.getFileEncoding());
     }
 }
+*/

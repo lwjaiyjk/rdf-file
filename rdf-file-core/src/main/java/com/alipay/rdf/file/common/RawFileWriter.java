@@ -39,7 +39,7 @@ public class RawFileWriter implements RdfFileWriterSpi {
     }
 
     @Override
-    public void writeRow(Object rowBean) {
+    public void writeRow(Object rowBean,String bodyTemplateName) {
         writeLine(rowBean.toString());
     }
 

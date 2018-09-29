@@ -47,4 +47,8 @@ public class ProcessCotnext {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    public Map<String, Object> getBizData() {
+        return bizData;
+    }
 }

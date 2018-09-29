@@ -27,7 +27,7 @@ public class TemplateConfig {
     /** 头信息定义*/
     private List<String> head               = new ArrayList<String>();
     /** 文件体信息定义*/
-    private List<String> body               = new ArrayList<String>();
+    private List<BodyTemplateConfig> bodyTemplateConfigs               = new ArrayList<BodyTemplateConfig>();
     /** 文件尾部信息定义*/
     private List<String> tail               = new ArrayList<String>();
     /** 配置汇总字段*/
@@ -75,12 +75,12 @@ public class TemplateConfig {
         this.head = head;
     }
 
-    public List<String> getBody() {
-        return body;
+    public List<BodyTemplateConfig> getBodyTemplateConfigs() {
+        return bodyTemplateConfigs;
     }
 
-    public void setBody(List<String> body) {
-        this.body = body;
+    public void setBodyTemplateConfigs(List<BodyTemplateConfig> bodyTemplateConfigs) {
+        this.bodyTemplateConfigs = bodyTemplateConfigs;
     }
 
     public List<String> getTail() {

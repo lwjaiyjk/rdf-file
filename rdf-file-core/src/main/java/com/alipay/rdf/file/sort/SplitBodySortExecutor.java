@@ -7,6 +7,9 @@ import java.util.List;
 import com.alipay.rdf.file.interfaces.FileFactory;
 import com.alipay.rdf.file.interfaces.FileReader;
 import com.alipay.rdf.file.interfaces.FileWriter;
+import com.alipay.rdf.file.loader.TemplateLoader;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
+import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileSlice;
 import com.alipay.rdf.file.model.SortConfig;
@@ -37,12 +40,13 @@ public class SplitBodySortExecutor extends AbstractSortExecutor {
         FileWriter fileWriter = null;
         try {
             List<RowData> rowDatas = new ArrayList<RowData>();
-
+            FileMeta fileMeta = TemplateLoader.load(fileConfig);
             String[] cols = null;
             while (null != (cols = sliceReader.readRow(String[].class))) {
+                FileConditionBodyMeta fileConditionBodyMeta = fileMeta.getCurBodyTemplateMetas(cols);
                 RowData rowData = new RowData(sortConfig.getSortIndexes(), sortConfig.getSortType(),
                     cols, RdfFileUtil.getColumnSplit(fileConfig),
-                    sortConfig.getColumnRearrangeIndex());
+                    sortConfig.getColumnRearrangeIndex(),fileConditionBodyMeta.getTemplateName());
 
                 if (!rowFiler(rowData, sortConfig)) {
                     rowDatas.add(rowData);

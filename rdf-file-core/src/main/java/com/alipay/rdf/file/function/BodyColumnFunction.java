@@ -36,7 +36,7 @@ public class BodyColumnFunction extends RdfFunction {
 
     public void horizontal(FuncContext ctx) throws IOException {
         if (CodecType.SERIALIZE.equals(ctx.codecType)) {
-            BodyColumnHorizontalCodec.serialize(ctx.rowBean, ctx.fileConfig, ctx.writer, params[0]);
+            BodyColumnHorizontalCodec.serialize(ctx.rowBean, ctx.fileConfig, ctx.writer, params[0],ctx.bodyTemplateName);
 
         } else if (CodecType.DESERIALIZE.equals(ctx.codecType)) {
             BodyColumnHorizontalCodec.deserialize(null, ctx.fileConfig, ctx.reader, params[0]);
@@ -45,9 +45,9 @@ public class BodyColumnFunction extends RdfFunction {
 
     public void vertical(FuncContext ctx) throws IOException {
         if (CodecType.SERIALIZE.equals(ctx.codecType)) {
-            BodyColumnVerticalCodec.serialize(ctx.rowBean, ctx.fileConfig, ctx.writer, params[0]);
+            BodyColumnVerticalCodec.serialize(ctx.rowBean, ctx.fileConfig, ctx.writer, params[0],ctx.bodyTemplateName);
         } else if (CodecType.DESERIALIZE.equals(ctx.codecType)) {
-            BodyColumnVerticalCodec.deserialize(null, ctx.fileConfig, ctx.reader, params[0]);
+            BodyColumnVerticalCodec.deserialize(null, ctx.fileConfig, ctx.reader, params[0],ctx.bodyTemplateName);
         }
     }
 
@@ -64,14 +64,14 @@ public class BodyColumnFunction extends RdfFunction {
 
         switch (ctx.codecType) {
             case SERIALIZE:
-                String value = String.valueOf(fileMeta.getBodyColumns().size());
+                String value = String.valueOf(fileMeta.getBodyColumns(ctx.bodyTemplateName).size());
                 ctx.writer.writeLine(columnFormat.serialize(value, ctx.columnMeta, ctx.fileConfig));
                 break;
             case DESERIALIZE:
                 value = ctx.reader.readLine();
                 Object field = columnTypeCodec.deserialize(value, ctx.columnMeta);
                 RdfFileUtil.assertEquals(field.toString(),
-                    String.valueOf(fileMeta.getBodyColumns().size()));
+                    String.valueOf(fileMeta.getBodyColumns(ctx.bodyTemplateName).size()));
                 break;
             default:
                 throw new RdfFileException("不支持序列号反序列化类型" + ctx.codecType.name(),
@@ -80,11 +80,11 @@ public class BodyColumnFunction extends RdfFunction {
     }
 
     @Override
-    public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+    public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
         if ("horizontal".equals(expression)) {
             return 1;
         } else if ("vertical".equals(expression)) {
-            return fileMeta.getBodyColumns().size();
+            return fileMeta.getBodyColumns(bodyTemplateName).size();
         } else if ("count".equals(expression)) {
             return 1;
         } else {

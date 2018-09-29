@@ -7,6 +7,8 @@ import java.util.List;
 import com.alipay.rdf.file.exception.RdfErrorEnum;
 import com.alipay.rdf.file.exception.RdfFileException;
 import com.alipay.rdf.file.loader.TemplateLoader;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
+import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
 import com.alipay.rdf.file.processor.ProcessCotnext;
@@ -52,7 +54,9 @@ public class FixLengthLineValidator implements RdfFileProcessorSpi {
                 e, RdfErrorEnum.ENCODING_ERROR);
         }
 
-        int rowDefinedLength = TemplateLoader.getRowLength(fileConfig);
+        FileMeta fileMeta = TemplateLoader.load(fileConfig);
+        FileConditionBodyMeta fileConditionBodyMeta = fileMeta.getCurBodyTemplateMetas(pc.getBizData());
+        int rowDefinedLength = TemplateLoader.getRowLength(fileConfig,fileConditionBodyMeta.getTemplateName());
 
         if (lineLength != rowDefinedLength) {
             throw new RdfFileException(

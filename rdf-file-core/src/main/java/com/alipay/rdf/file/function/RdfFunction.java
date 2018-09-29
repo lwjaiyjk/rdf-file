@@ -62,7 +62,7 @@ public abstract class RdfFunction implements RdfFileFunctionSpi {
      * 
      * @return
      */
-    public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+    public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
         return 1;
     }
 

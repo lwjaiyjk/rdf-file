@@ -78,7 +78,7 @@ public interface RdfFileFunctionSpi {
      * 此函数操作涉及的行数
      * 
      */
-    int rowsAffected(RowDefinition rd, FileMeta fileMeta);
+    int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName);
 
     /**
      *  函数执行上下文
@@ -93,6 +93,7 @@ public interface RdfFileFunctionSpi {
         public FileColumnMeta                                    columnMeta;
         public FileConfig                                        fileConfig;
         public Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors;
+        public String bodyTemplateName;
     }
 
     /**

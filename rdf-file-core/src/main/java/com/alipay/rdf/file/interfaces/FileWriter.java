@@ -22,10 +22,10 @@ public interface FileWriter {
     /**
      * 写入一行记录,  传入一个javabean对象
      * 
-     * @param summary 汇总字段
+     * @param bodyTemplateName
      * @param rowBean 
      */
-    void writeRow(Object rowBean);
+    void writeRow(Object rowBean,String bodyTemplateName);
 
     /**
      * 写入尾部信息,  传入一个javabean对象

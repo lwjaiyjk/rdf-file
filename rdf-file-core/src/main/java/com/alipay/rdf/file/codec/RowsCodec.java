@@ -1,13 +1,16 @@
 package com.alipay.rdf.file.codec;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.alipay.rdf.file.exception.RdfFileException;
 import com.alipay.rdf.file.interfaces.FileReader;
 import com.alipay.rdf.file.interfaces.FileWriter;
 import com.alipay.rdf.file.loader.ProtocolLoader;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
 import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
@@ -22,9 +25,9 @@ import com.alipay.rdf.file.util.RdfFileUtil;
 
 /**
  * Copyright (C) 2013-2018 Ant Financial Services Group
- * 
+ * <p>
  * 对文件记录进行逐行编码解码
- * 
+ *
  * @author hongwei.quhw
  * @version $Id: RowsCodec.java, v 0.1 2017年8月3日 下午2:55:06 hongwei.quhw Exp $
  */
@@ -32,17 +35,17 @@ public class RowsCodec {
 
     public static void serialize(Object rowBean, FileConfig fileConfig, FileWriter writer,
                                  Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,
-                                 FileDataTypeEnum rowType) {
+                                 FileDataTypeEnum rowType, String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
         List<RowDefinition> rds = ProtocolLoader.getRowDefinitos(fileMeta.getProtocol(), rowType);
-        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType);
+        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType, bodyTemplateName);
         BeanMapWrapper bmw = new BeanMapWrapper(rowBean);
 
         for (RowDefinition rd : rds) {
             if (rd.isColumnloop()) {
                 if (ColumnLayoutEnum.horizontal.equals(rd.getColumnLayout())) {
                     writer.writeLine(RowColumnHorizontalCodec.serialize(bmw, fileConfig, rd,
-                        processors, rowType));
+                            processors, rowType, bodyTemplateName));
                 } else {
                     for (int i = 0; i < columnMetas.size(); i++) {
                         FileColumnMeta columnMeta = columnMetas.get(i);
@@ -79,7 +82,6 @@ public class RowsCodec {
                                     FileDataTypeEnum rowType) {
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
         List<RowDefinition> rds = ProtocolLoader.getRowDefinitos(fileMeta.getProtocol(), rowType);
-        List<FileColumnMeta> columnMetas = fileMeta.getColumns(rowType);
         BeanMapWrapper bmw = new BeanMapWrapper(requiredType);
 
         for (RowDefinition rd : rds) {
@@ -92,20 +94,55 @@ public class RowsCodec {
                     }
 
                     RowColumnHorizontalCodec.deserialize(bmw, fileConfig, line, rd, processors,
-                        rowType);
+                            rowType);
                 }
                 // column每一个就是一行
                 else if (rd.getColumnLayout().equals(ColumnLayoutEnum.vertical)) {
-                    for (int i = 0; i < columnMetas.size(); i++) {
+                    List<FileConditionBodyMeta> fileConditionBodyMetas = fileMeta.getBodyCondMetaColumns();
+                    int minNeedColNum = Integer.MIN_VALUE;
+                    int maxNeedColNum = 0;
+                    for (FileConditionBodyMeta fileConditionBodyMeta : fileConditionBodyMetas) {
+                        int colNum = fileConditionBodyMeta.getCondColMetas().size();
+                        if (minNeedColNum > colNum) {
+                            minNeedColNum = colNum;
+                        }
+
+                        if (maxNeedColNum < colNum) {
+                            maxNeedColNum = colNum;
+                        }
+                    }
+
+                    List<String> lineCnts = new ArrayList<String>();
+                    for (int j = 0; j < minNeedColNum; j++) {
                         String line = reader.readLine();
                         if (null == line) {
                             return null;
                         }
+                        lineCnts.add(line);
+                    }
+                    List<FileColumnMeta> fileColumnMetas = null;
+                    for (int i = minNeedColNum; i < maxNeedColNum; i++) {
+                        try {
+                            fileColumnMetas = fileMeta.getCurBodyTemplateColMetas(lineCnts.toArray(new String[0]));
+                            break;
+                        } catch (RdfFileException rdfFileException) {
+                            if (i == maxNeedColNum - 1) {
+                                throw rdfFileException;
+                            }
+                        }
+                        String line = reader.readLine();
+                        if (null == line) {
+                            return null;
+                        }
+                        lineCnts.add(line);
+                    }
 
-                        FileColumnMeta columnMeta = columnMetas.get(i);
+                    for (int k = 0; k < lineCnts.size(); k++) {
+
+                        FileColumnMeta columnMeta = fileColumnMetas.get(k);
                         FuncContext ctx = new FuncContext();
                         ctx.codecType = CodecType.DESERIALIZE;
-                        ctx.field = line;
+                        ctx.field = lineCnts.get(k);
                         ctx.columnMeta = columnMeta;
                         ctx.reader = reader;
                         ctx.fileConfig = fileConfig;
@@ -140,7 +177,7 @@ public class RowsCodec {
         }
 
         return new FileColumnMeta(colMeta.getColIndex(), colMeta.getName(), colMeta.getDesc(),
-            colMeta.getType(), colMeta.isRequired(), colMeta.getRange(), colMeta.getDefaultValue(),
-            fileMeta);
+                colMeta.getType(), colMeta.isRequired(), colMeta.getRange(), colMeta.getDefaultValue(),
+                fileMeta);
     }
 }

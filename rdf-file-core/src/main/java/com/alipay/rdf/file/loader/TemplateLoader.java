@@ -3,6 +3,8 @@ package com.alipay.rdf.file.loader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,12 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.rdf.file.exception.RdfErrorEnum;
 import com.alipay.rdf.file.exception.RdfFileException;
 import com.alipay.rdf.file.interfaces.RowValidator;
-import com.alipay.rdf.file.meta.FileColumnAttribute;
-import com.alipay.rdf.file.meta.FileColumnMeta;
-import com.alipay.rdf.file.meta.FileColumnRangeMeta;
-import com.alipay.rdf.file.meta.FileColumnTypeMeta;
-import com.alipay.rdf.file.meta.FileMeta;
-import com.alipay.rdf.file.meta.TemplateConfig;
+import com.alipay.rdf.file.meta.*;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
 import com.alipay.rdf.file.model.FileDefaultConfig;
@@ -40,16 +37,16 @@ public class TemplateLoader {
     /**
      * 计算行总长度
      * 
-     * @param fileMeta
+     * @param fileConfig
      * @return
      */
-    public static int getRowLength(FileConfig fileConfig) {
+    public static int getRowLength(FileConfig fileConfig,String templateName) {
         Integer len = ROW_LENGTH_CACHE.get(fileConfig.getTemplatePath());
 
         if (null == len) {
             FileMeta fileMeta = load(fileConfig);
             len = 0;
-            for (FileColumnMeta colMeta : fileMeta.getBodyColumns()) {
+            for (FileColumnMeta colMeta : fileMeta.getBodyColumns(templateName)) {
                 len += colMeta.getRange().getFirstAttr();
             }
             ROW_LENGTH_CACHE.put(fileConfig.getTemplatePath(), len);
@@ -82,9 +79,8 @@ public class TemplateLoader {
     /**
      * 加载模板
      * 
-     * @param template
+     * @param templatePath
      * @param templateEncoding
-     * @param fileEncoding
      * @return
      */
     public static FileMeta load(String templatePath, String templateEncoding) {
@@ -126,11 +122,27 @@ public class TemplateLoader {
                         .addHeadColumn(parseFileColumn(templatePath, head, colIndex++, fileMeta));
                 }
 
-                colIndex = 0;
                 // body
-                for (String body : templateConfig.getBody()) {
-                    fileMeta
-                        .addBodyColumn(parseFileColumn(templatePath, body, colIndex++, fileMeta));
+                for (BodyTemplateConfig bodyTemplateConfig : templateConfig.getBodyTemplateConfigs()) {
+                    FileConditionBodyMeta fileConditionBodyMeta = new FileConditionBodyMeta();
+                    fileConditionBodyMeta.setTemplateName(bodyTemplateConfig.getName());
+                    // 解析条件
+                    List<FileColumnMeta> cndColumnMetas = new ArrayList<FileColumnMeta>();
+                    colIndex = 0;
+                    for(String cndRowInfo:bodyTemplateConfig.getTemplateCnds()){
+                        cndColumnMetas.add(parseFileColumn(templatePath,cndRowInfo,colIndex++,fileMeta));
+                    }
+                    fileConditionBodyMeta.setCondColMetas(cndColumnMetas);
+
+                    // 解析列
+                    List<FileColumnMeta> fileColumnMetas = new ArrayList<FileColumnMeta>();
+                    for(String body: bodyTemplateConfig.getTemplateColInfos()) {
+                        fileColumnMetas.add(parseFileColumn(templatePath, body, colIndex++, fileMeta));
+                    }
+                    fileConditionBodyMeta.setBodyColMetas(fileColumnMetas);
+
+                    fileMeta.addBodyColumn(fileConditionBodyMeta);
+                    fileMeta.getBodyTemplateNameMetaMap().put(bodyTemplateConfig.getName(),fileConditionBodyMeta);
                 }
 
                 colIndex = 0;

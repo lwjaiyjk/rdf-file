@@ -20,7 +20,7 @@ public interface FileCodec {
      * 序列化一行数据到文件
      */
     void serialize(Object bean, FileConfig config, FileWriter writer,
-                   Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors);
+                   Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,String bodyTemplateName);
 
     /**
      * 从文件反序列化一条数据 

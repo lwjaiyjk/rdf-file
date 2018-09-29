@@ -3,6 +3,8 @@ package com.alipay.rdf.file.sort;
 import com.alipay.rdf.file.interfaces.FileFactory;
 import com.alipay.rdf.file.interfaces.FileReader;
 import com.alipay.rdf.file.interfaces.FileWriter;
+import com.alipay.rdf.file.loader.TemplateLoader;
+import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.SortConfig;
 import com.alipay.rdf.file.model.SortResult;
@@ -21,6 +23,8 @@ public class SortedMeger {
 
     public static void merge(FileConfig fileConfig, SortConfig sortConfig, SortResult sortResult) {
         FileConfig writerConfig = fileConfig.clone();
+
+        FileMeta fileMeta = TemplateLoader.load(fileConfig);
 
         writerConfig.setFilePath(FileSortUtil.getFullFilePath(sortConfig));
         writerConfig.setStorageConfig(sortConfig.getResultStorageConfig());
@@ -54,7 +58,7 @@ public class SortedMeger {
                 RdfProfiler.enter("rdf-file#merge sorted body start...");
                 RowData row = null;
                 while (null != (row = bodySlicesReader.readRow())) {
-                    writer.writeRow(row.getColumnSortDatas());
+                    writer.writeRow(row.getColumnSortDatas(),row.getBodyTemplateName());
                 }
             } finally {
                 if (null != bodySlicesReader) {

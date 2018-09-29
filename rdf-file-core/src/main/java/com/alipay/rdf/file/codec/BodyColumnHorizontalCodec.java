@@ -27,12 +27,12 @@ public class BodyColumnHorizontalCodec {
 
     /**
      * 写入头部字段
-     * @see com.alipay.rdf.file.codec.FileCodec#serialize(Object, com.alipay.rdf.file.common.ProtocolFileWriter)
+     *  com.alipay.rdf.file.codec.FileCodec#serialize(Object, com.alipay.rdf.file.common.ProtocolFileWriter)
      */
-    public static void serialize(Object bean, FileConfig config, FileWriter writer, String method) {
+    public static void serialize(Object bean, FileConfig config, FileWriter writer, String method,String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(config);
         StringBuilder colHead = new StringBuilder();
-        List<FileColumnMeta> colMetas = fileMeta.getBodyColumns();
+        List<FileColumnMeta> colMetas = fileMeta.getBodyColumns(bodyTemplateName);
 
         if (RdfFileUtil.isNotBlank(fileMeta.getColumnSplit())
             && fileMeta.isStartWithSplit(FileDataTypeEnum.HEAD)) {
@@ -55,7 +55,7 @@ public class BodyColumnHorizontalCodec {
 
     /**
      * 读取头部字段
-     * @see com.alipay.rdf.file.codec.FileCodec#deserialize(com.alipay.rdf.file.common.ProtocolFileReader)
+     *  com.alipay.rdf.file.codec.FileCodec#deserialize(com.alipay.rdf.file.common.ProtocolFileReader)
      */
     public static <T> T deserialize(Class<?> clazz, FileConfig config, FileReader reader,
                                     String method) {
@@ -65,7 +65,7 @@ public class BodyColumnHorizontalCodec {
         FileMeta fileMeta = TemplateLoader.load(config);
         String[] columns = ProtocolLoader.loadProtocol(fileMeta.getProtocol()).getRowSplit()
             .split(new SplitContext(line, config, FileDataTypeEnum.BODY));
-        List<FileColumnMeta> colMetas = fileMeta.getBodyColumns();
+        List<FileColumnMeta> colMetas = fileMeta.getCurBodyTemplateColMetas(columns);
 
         int splitLength = fileMeta.isStartWithSplit(FileDataTypeEnum.HEAD) ? colMetas.size() + 1
             : colMetas.size();

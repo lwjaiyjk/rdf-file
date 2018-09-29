@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.reader;
 
 import java.io.BufferedReader;
@@ -24,12 +25,14 @@ import com.alipay.rdf.file.util.TemporaryFolderUtil;
 
 import junit.framework.Assert;
 
+*/
 /**
  * 
  * 
  * @author hongwei.quhw
  * @version $Id: FundIndexFileTest.java, v 0.1 2017年7月28日 下午2:29:05 hongwei.quhw Exp $
- */
+ *//*
+
 public class FundIndexFileTest {
     private TemporaryFolderUtil temporaryFolder = new TemporaryFolderUtil();
 
@@ -110,3 +113,4 @@ public class FundIndexFileTest {
         temporaryFolder.delete();
     }
 }
+*/

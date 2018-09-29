@@ -37,7 +37,7 @@ import junit.framework.Assert;
  * @version $Id: NasGetBodySliceTest.java, v 0.1 2017年8月1日 上午11:12:03 hongwei.quhw Exp $
  */
 public class NasGetBodySliceTest {
-    private static final String             templatePath = "/split/headslice/test.json";
+    /*private static final String             templatePath = "/split/headslice/test.json";
     private Map<String, ProtocolDefinition> PD_CACHE     = null;
     private TemporaryFolderUtil             tf           = new TemporaryFolderUtil();
     private RdfFileSplitterSpi                 fileSplitter = new NasFileSliceSplitter();
@@ -305,5 +305,5 @@ public class NasGetBodySliceTest {
     @After
     public void after() throws Exception {
         tf.delete();
-    }
+    }*/
 }

@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.reader;
 
 import java.io.File;
@@ -75,3 +76,4 @@ public class FileReaderFundTest {
         tf.delete();
     }
 }
+*/

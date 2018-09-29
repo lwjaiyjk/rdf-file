@@ -16,6 +16,7 @@ import com.alipay.rdf.file.loader.ProtocolLoader;
 import com.alipay.rdf.file.loader.SummaryLoader;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
 import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
@@ -246,8 +247,9 @@ public class ProtocolFilesSortedReader implements RdfFileReaderSpi, FileSorter {
         BeanMapWrapper bmw = new BeanMapWrapper(datas);
         List<RowDefinition> rds = ProtocolLoader.getRowDefinitos(fileMeta.getProtocol(),
             FileDataTypeEnum.BODY);
+        FileConditionBodyMeta fileConditionBodyMeta = fileMeta.getCurBodyTemplateMetas(datas);
         String line = RowColumnHorizontalCodec.serialize(bmw, fileConfig, rds.get(0), processors,
-            FileDataTypeEnum.BODY);
+            FileDataTypeEnum.BODY,fileConditionBodyMeta.getTemplateName());
         return line;
     }
 

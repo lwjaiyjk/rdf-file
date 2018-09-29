@@ -12,6 +12,7 @@ import com.alipay.rdf.file.interfaces.FileWriter;
 import com.alipay.rdf.file.loader.ProtocolLoader;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
 import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
@@ -30,13 +31,13 @@ public class BodyCodec implements FileCodec {
     public static BodyCodec instance = new BodyCodec();
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#serialize(Object, ProtocolFileWriter.quhw.file.common.CommonFileWriter)
+     *  hongwei.quhw.file.codec.FileCodec#serialize(Object, ProtocolFileWriter.quhw.file.common.CommonFileWriter)
      */
     @Override
     public void serialize(Object bean, FileConfig config, FileWriter writer,
-                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors) {
+                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(config);
-        List<FileColumnMeta> columnMetas = fileMeta.getBodyColumns();
+        List<FileConditionBodyMeta> columnMetas = fileMeta.getBodyCondMetaColumns();
 
         if (columnMetas.size() == 0) {
             throw new RdfFileException("rdf-file#BodyCodec.deserialize 数据模板templatePath="
@@ -53,17 +54,17 @@ public class BodyCodec implements FileCodec {
                 RdfErrorEnum.BODY_NOT_DEFINED);
         }
 
-        RowsCodec.serialize(bean, config, writer, processors, FileDataTypeEnum.BODY);
+        RowsCodec.serialize(bean, config, writer, processors, FileDataTypeEnum.BODY,bodyTemplateName);
     }
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#deserialize(ProtocolFileReader.quhw.file.common.CommonFileReader)
+     *  hongwei.quhw.file.codec.FileCodec#deserialize(ProtocolFileReader.quhw.file.common.CommonFileReader)
      */
     @Override
     public <T> T deserialize(Class<?> clazz, FileConfig config, FileReader reader,
                              Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors) {
         FileMeta fileMeta = TemplateLoader.load(config);
-        List<FileColumnMeta> columnMetas = fileMeta.getBodyColumns();
+        List<FileConditionBodyMeta> columnMetas = fileMeta.getBodyCondMetaColumns();
 
         if (columnMetas.size() == 0) {
             throw new RdfFileException("rdf-file#BodyCodec.deserialize 数据模板templatePath="

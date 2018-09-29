@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.writer;
 
 import java.io.BufferedReader;
@@ -22,12 +23,14 @@ import com.alipay.rdf.file.model.StorageConfig;
 import com.alipay.rdf.file.util.DateUtil;
 import com.alipay.rdf.file.util.TemporaryFolderUtil;
 
+*/
 /**
  * 汇总写入
  * 
  * @author hongwei.quhw
  * @version $Id: SummaryWriterTest.java, v 0.1 2018年3月6日 上午11:36:11 hongwei.quhw Exp $
- */
+ *//*
+
 public class SummaryWriterTest {
     TemporaryFolderUtil tf = new TemporaryFolderUtil();
 
@@ -107,3 +110,4 @@ public class SummaryWriterTest {
         tf.delete();
     }
 }
+*/

@@ -11,6 +11,7 @@ import com.alipay.rdf.file.interfaces.FileReader;
 import com.alipay.rdf.file.interfaces.FileWriter;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileSlice;
 import com.alipay.rdf.file.model.SortConfig;
@@ -41,7 +42,8 @@ public class ProtocolBodySortExecutor extends AbstractSortExecutor {
             Map<String, Object> row = null;
 
             while (null != (row = sliceReader.readRow(HashMap.class))) {
-                List<FileColumnMeta> colMetas = TemplateLoader.load(fileConfig).getBodyColumns();
+                FileConditionBodyMeta fileConditionBodyMeta = TemplateLoader.load(fileConfig).getCurBodyTemplateMetas(row);
+                List<FileColumnMeta> colMetas = fileConditionBodyMeta.getBodyColMetas();
                 Object[] data = new Object[colMetas.size()];
                 for (int i = 0; i < colMetas.size(); i++) {
                     data[i] = row.get(colMetas.get(i).getName());
@@ -49,7 +51,7 @@ public class ProtocolBodySortExecutor extends AbstractSortExecutor {
 
                 RowData rowData = new RowData(sortConfig.getSortIndexes(), sortConfig.getSortType(),
                     data, RdfFileUtil.getColumnSplit(writerConfig),
-                    sortConfig.getColumnRearrangeIndex());
+                    sortConfig.getColumnRearrangeIndex(),fileConditionBodyMeta.getTemplateName());
                 rowData.setFileReader(sliceReader);
 
                 if (!rowFiler(rowData, sortConfig)) {
@@ -65,7 +67,7 @@ public class ProtocolBodySortExecutor extends AbstractSortExecutor {
 
             // 写入临时文件
             for (RowData rowData : rowDatas) {
-                fileWriter.writeRow(rowData.getColumnSortDatas());
+                fileWriter.writeRow(rowData.getColumnSortDatas(),rowData.getBodyTemplateName());
             }
 
             return tempBodyFilePath;

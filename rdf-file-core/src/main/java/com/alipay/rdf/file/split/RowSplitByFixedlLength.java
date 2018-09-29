@@ -24,13 +24,13 @@ import com.alipay.rdf.file.util.RdfFileUtil;
 public class RowSplitByFixedlLength implements RdfFileRowSplitSpi {
 
     /** 
-     * @see RdfFileRowSplitSpi.quhw.file.split.RowSplit#split(java.lang.String, hongwei.quhw.file.meta.FileMeta)
+     *  RdfFileRowSplitSpi.quhw.file.split.RowSplit#split(java.lang.String, hongwei.quhw.file.meta.FileMeta)
      */
     @Override
     public String[] split(SplitContext ctx) {
         FileMeta fileMeta = TemplateLoader.load(ctx.getFileConfig());
         try {
-            List<FileColumnMeta> colMetas = fileMeta.getColumns(ctx.getRowType());
+            List<FileColumnMeta> colMetas = fileMeta.getColumns(ctx.getRowType(),null);
             List<String> colVals = new ArrayList<String>(colMetas.size());
 
             String encoding = RdfFileUtil.getFileEncoding(ctx.getFileConfig());

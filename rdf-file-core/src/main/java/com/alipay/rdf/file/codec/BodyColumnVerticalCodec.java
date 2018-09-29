@@ -25,10 +25,10 @@ public class BodyColumnVerticalCodec {
      * 写入头部字段
      */
     public static void serialize(Object bean, FileConfig fileConfig, FileWriter writer,
-                                 String method) {
+                                 String method,String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
         //按行写入column字段
-        for (FileColumnMeta colMeta : fileMeta.getBodyColumns()) {
+        for (FileColumnMeta colMeta : fileMeta.getBodyColumns(bodyTemplateName)) {
             writer.writeLine(getValue(colMeta, method));
         }
     }
@@ -37,10 +37,10 @@ public class BodyColumnVerticalCodec {
      * 读取头部字段
      */
     public static <T> T deserialize(Class<?> clazz, FileConfig fileConfig, FileReader reader,
-                                    String method) {
+                                    String method,String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
         String columName = null;
-        for (FileColumnMeta colMeta : fileMeta.getBodyColumns()) {
+        for (FileColumnMeta colMeta : fileMeta.getBodyColumns(bodyTemplateName)) {
             columName = RdfFileUtil.assertTrimNotBlank(reader.readLine());
             if (!getValue(colMeta, method).equalsIgnoreCase(columName)) {
                 throw new RdfFileException("rdf-file#模板中定义的column为" + colMeta.getName()

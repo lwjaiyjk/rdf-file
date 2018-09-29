@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.split;
 
 import java.io.File;
@@ -32,12 +33,14 @@ import com.alipay.rdf.file.util.TestLog;
 
 import junit.framework.Assert;
 
+*/
 /**
  * 获取文件头
  * 
  * @author hongwei.quhw
  * @version $Id: NasGetHeadTest.java, v 0.1 2017年7月31日 下午7:31:19 hongwei.quhw Exp $
- */
+ *//*
+
 public class NasGetHeadTest {
     private static final String             templatePath = "/split/headslice/test.json";
     private Map<String, ProtocolDefinition> PD_CACHE     = null;
@@ -55,9 +58,11 @@ public class NasGetHeadTest {
         tf.create();
     }
 
-    /**
+    */
+/**
      * 两个行头
-     */
+     *//*
+
     @Test
     public void testTwoLines() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -99,9 +104,11 @@ public class NasGetHeadTest {
 
     }
 
-    /**
+    */
+/**
      * 两个行头
-     */
+     *//*
+
     @Test
     public void testTwoLines2() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -143,10 +150,12 @@ public class NasGetHeadTest {
 
     }
 
-    /**
+    */
+/**
      * 所有数据都是头
      * 不是以换行符结束
-     */
+     *//*
+
     @Test
     public void testAllHeadNotEndWithLineBreak() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -186,10 +195,12 @@ public class NasGetHeadTest {
 
     }
 
-    /**
+    */
+/**
      * 所有数据都是头
      * 以换行符结束 \r
-     */
+     *//*
+
     @Test
     public void testAllHeadEndWithLineBreak() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -229,10 +240,12 @@ public class NasGetHeadTest {
 
     }
 
-    /**
+    */
+/**
      * 所有数据都是头
      * 以换行符结束 \n
-     */
+     *//*
+
     @Test
     public void testAllHeadEndWithLineBreak2() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -271,10 +284,12 @@ public class NasGetHeadTest {
         Assert.assertEquals(content, new String(bs));
     }
 
-    /**
+    */
+/**
      * 所有数据都是头
      * 以换行符结束 \r\n
-     */
+     *//*
+
     @Test
     public void testAllHeadEndWithLineBreak3() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -314,10 +329,12 @@ public class NasGetHeadTest {
 
     }
 
-    /**
+    */
+/**
      * 所有数据都是头
      * 各种换行符
-     */
+     *//*
+
     @Test
     public void testAllHeadMixWithLineBreak() throws Exception {
         ProtocolDefinition pd = new ProtocolDefinition();
@@ -396,3 +413,4 @@ public class NasGetHeadTest {
         tf.delete();
     }
 }
+*/

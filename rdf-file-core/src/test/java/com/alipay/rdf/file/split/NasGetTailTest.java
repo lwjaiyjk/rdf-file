@@ -65,7 +65,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 7;
             }
         });
@@ -107,7 +107,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 1;
             }
         });
@@ -151,7 +151,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 1;
             }
         });
@@ -195,7 +195,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 1;
             }
         });
@@ -240,7 +240,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 7;
             }
         });
@@ -285,7 +285,7 @@ public class NasGetTailTest {
         RowDefinition rd = new RowDefinition();
         rd.setOutput(new ColumnFunction() {
             @Override
-            public int rowsAffected(RowDefinition rd, FileMeta fileMeta) {
+            public int rowsAffected(RowDefinition rd, FileMeta fileMeta,String bodyTemplateName) {
                 return 7;
             }
         });

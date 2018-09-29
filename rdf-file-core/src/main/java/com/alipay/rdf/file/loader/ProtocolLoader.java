@@ -154,7 +154,7 @@ public class ProtocolLoader {
     /**
      * 计算对应部位，涉及的行数
      * 
-     * @param fileMeta
+     * @param config
      * @param rowType
      * @return
      */
@@ -173,7 +173,7 @@ public class ProtocolLoader {
 
         int rowsAfftected = 0;
         for (RowDefinition rd : rds) {
-            rowsAfftected += rd.getOutput().rowsAffected(rd, fileMeta);
+            rowsAfftected += rd.getOutput().rowsAffected(rd, fileMeta,null);
         }
 
         return rowsAfftected;

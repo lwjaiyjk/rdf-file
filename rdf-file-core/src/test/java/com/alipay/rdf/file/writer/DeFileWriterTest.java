@@ -90,7 +90,7 @@ public class DeFileWriterTest {
         body.put("longN", new Long(33));
         body.put("bol", true);
         body.put("memo", "memo1");
-        fileWriter.writeRow(body);
+        fileWriter.writeRow(body,null);
 
         testDate = DateUtil.parse("2016-02-03 12:22:33", "yyyy-MM-dd HH:mm:ss");
 
@@ -105,7 +105,7 @@ public class DeFileWriterTest {
         body.put("longN", 125);
         body.put("bol", false);
         body.put("memo", "memo2");
-        fileWriter.writeRow(body);
+        fileWriter.writeRow(body,null);
 
         fileWriter.close();
 
@@ -159,7 +159,7 @@ public class DeFileWriterTest {
         body.put("memo", "memo1");
 
         try {
-            fileWriter.writeRow(body);
+            fileWriter.writeRow(body,null);
             Assert.fail();
         } catch (RdfFileException e) {
             Assert.assertEquals(RdfErrorEnum.VALIDATE_ERROR, e.getErrorEnum());

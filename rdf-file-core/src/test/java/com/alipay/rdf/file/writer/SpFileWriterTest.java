@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.writer;
 
 import java.io.BufferedReader;
@@ -26,12 +27,14 @@ import com.alipay.rdf.file.util.DateUtil;
 import com.alipay.rdf.file.util.TemporaryFolderUtil;
 import com.alipay.rdf.file.util.TestLog;
 
+*/
 /**
  * de 写测试
  * 
  * @author hongwei.quhw
  * @version $Id: FileWriterDeTest.java, v 0.1 2017年8月10日 下午7:02:59 hongwei.quhw Exp $
- */
+ *//*
+
 public class SpFileWriterTest {
     TemporaryFolderUtil tf = new TemporaryFolderUtil();
 
@@ -171,3 +174,4 @@ public class SpFileWriterTest {
         tf.delete();
     }
 }
+*/

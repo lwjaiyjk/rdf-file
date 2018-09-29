@@ -29,11 +29,11 @@ public class HeaderCodec implements FileCodec {
     public static HeaderCodec instance = new HeaderCodec();
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#serialize(Object, hongwei.quhw.file.common.ProtocolFileWriter)
+     *  hongwei.quhw.file.codec.FileCodec#serialize(Object, hongwei.quhw.file.common.ProtocolFileWriter)
      */
     @Override
     public void serialize(Object bean, FileConfig config, FileWriter writer,
-                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors) {
+                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,String bodyTemlateName) {
         FileMeta fileMeta = TemplateLoader.load(config);
         List<FileColumnMeta> columnMetas = fileMeta.getHeadColumns();
 
@@ -52,11 +52,11 @@ public class HeaderCodec implements FileCodec {
                 RdfErrorEnum.HEAD_NOT_DEFINED);
         }
 
-        RowsCodec.serialize(bean, config, writer, processors, FileDataTypeEnum.HEAD);
+        RowsCodec.serialize(bean, config, writer, processors, FileDataTypeEnum.HEAD,bodyTemlateName);
     }
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#deserialize(hongwei.quhw.file.common.ProtocolFileReader)
+     *  hongwei.quhw.file.codec.FileCodec#deserialize(hongwei.quhw.file.common.ProtocolFileReader)
      */
     @Override
     public <T> T deserialize(Class<?> clazz, FileConfig config, FileReader reader,

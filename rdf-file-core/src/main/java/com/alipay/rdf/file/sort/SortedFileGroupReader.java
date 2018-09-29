@@ -11,6 +11,8 @@ import com.alipay.rdf.file.interfaces.FileFactory;
 import com.alipay.rdf.file.interfaces.FileReader;
 import com.alipay.rdf.file.loader.TemplateLoader;
 import com.alipay.rdf.file.meta.FileColumnMeta;
+import com.alipay.rdf.file.meta.FileConditionBodyMeta;
+import com.alipay.rdf.file.meta.FileMeta;
 import com.alipay.rdf.file.model.FileConfig;
 import com.alipay.rdf.file.model.FileDataTypeEnum;
 import com.alipay.rdf.file.model.SortConfig;
@@ -137,20 +139,25 @@ public class SortedFileGroupReader {
 
     private RowData getRowData(FileReader reader) {
 
+        FileMeta fileMeta = TemplateLoader.load(fileConfig);
+
         if (FileCoreToolContants.RAW_SORTER.equals(fileConfig.getType())) {
             String[] cols = reader.readRow(String[].class);
             if (null == cols) {
                 return null;
             }
 
+            FileConditionBodyMeta fileConditionBodyMeta = fileMeta.getCurBodyTemplateMetas(cols);
             RowData rowData = new RowData(sortConfig.getSortIndexes(), sortConfig.getSortType(),
-                cols, RdfFileUtil.getColumnSplit(fileConfig), sortConfig.getColumnRearrangeIndex());
+                cols, RdfFileUtil.getColumnSplit(fileConfig), sortConfig.getColumnRearrangeIndex(),
+                    fileConditionBodyMeta.getTemplateName());
             rowData.setFileReader(reader);
             return rowData;
         } else {
-            List<FileColumnMeta> colMetas = TemplateLoader.load(fileConfig).getBodyColumns();
-            Object[] data = new Object[colMetas.size()];
             Map<String, Object> row = reader.readRow(HashMap.class);
+            List<FileColumnMeta> colMetas = TemplateLoader.load(fileConfig).getCurBodyTemplateMetas(row).getBodyColMetas();
+            Object[] data = new Object[colMetas.size()];
+
 
             if (null == row) {
                 return null;
@@ -159,9 +166,10 @@ public class SortedFileGroupReader {
             for (int i = 0; i < colMetas.size(); i++) {
                 data[i] = row.get(colMetas.get(i).getName());
             }
-
+            FileConditionBodyMeta fileConditionBodyMeta = fileMeta.getCurBodyTemplateMetas(data);
             RowData rowData = new RowData(sortConfig.getSortIndexes(), sortConfig.getSortType(),
-                data, RdfFileUtil.getColumnSplit(fileConfig), sortConfig.getColumnRearrangeIndex());
+                data, RdfFileUtil.getColumnSplit(fileConfig), sortConfig.getColumnRearrangeIndex(),
+                    fileConditionBodyMeta.getTemplateName());
             rowData.setFileReader(reader);
             return rowData;
         }

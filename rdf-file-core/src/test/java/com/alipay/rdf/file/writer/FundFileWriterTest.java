@@ -1,3 +1,4 @@
+/*
 package com.alipay.rdf.file.writer;
 
 import java.io.BufferedReader;
@@ -20,12 +21,14 @@ import com.alipay.rdf.file.util.TemporaryFolderUtil;
 
 import junit.framework.Assert;
 
+*/
 /**
  * 写测试
  * 
  * @author hongwei.quhw
  * @version $Id: FundFileWriterTest.java, v 0.1 2016-12-29 下午3:25:33 hongwei.quhw Exp $
- */
+ *//*
+
 public class FundFileWriterTest {
     private TemporaryFolderUtil temporaryFolder = new TemporaryFolderUtil();
 
@@ -93,3 +96,4 @@ public class FundFileWriterTest {
         temporaryFolder.delete();
     }
 }
+*/

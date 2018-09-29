@@ -28,11 +28,11 @@ public class TailCodec implements FileCodec {
     public static TailCodec instance = new TailCodec();
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#serialize(Object, hongwei.quhw.file.common.ProtocolFileWriter)
+     * hongwei.quhw.file.codec.FileCodec#serialize(Object, hongwei.quhw.file.common.ProtocolFileWriter)
      */
     @Override
     public void serialize(Object bean, FileConfig fileConfig, FileWriter writer,
-                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors) {
+                          Map<ProcessorTypeEnum, List<RdfFileProcessorSpi>> processors,String bodyTemplateName) {
         FileMeta fileMeta = TemplateLoader.load(fileConfig);
         List<FileColumnMeta> columnMetas = fileMeta.getTailColumns();
 
@@ -51,11 +51,11 @@ public class TailCodec implements FileCodec {
                 RdfErrorEnum.TAIL_NOT_DEFINED);
         }
 
-        RowsCodec.serialize(bean, fileConfig, writer, processors, FileDataTypeEnum.TAIL);
+        RowsCodec.serialize(bean, fileConfig, writer, processors, FileDataTypeEnum.TAIL,bodyTemplateName);
     }
 
     /** 
-     * @see hongwei.quhw.file.codec.FileCodec#deserialize(hongwei.quhw.file.common.ProtocolFileReader)
+     *  hongwei.quhw.file.codec.FileCodec#deserialize(hongwei.quhw.file.common.ProtocolFileReader)
      */
     @Override
     public <T> T deserialize(Class<?> clazz, FileConfig fileConfig, FileReader reader,
