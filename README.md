@@ -1,3 +1,7 @@
+NEW ADD
+------------
+新增支持单文件多模板文件解析的场景，具体使用规则参见：
+
 Introduction
 ------------
 Rdf-File is a tool for processing structured text files. It can read, write, split, merge, sort, validate, and it can operate different distributed file systems (nas/oss ...).  Standards or non-standard files can be handled efficiently in a single or distributed environment.
