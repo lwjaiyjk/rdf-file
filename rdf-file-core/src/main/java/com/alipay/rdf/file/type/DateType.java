@@ -59,4 +59,11 @@ public class DateType extends AbstractColumnTypeCodec<Object> {
                 RdfErrorEnum.DATE_FORAMT_ERROR);
         }
     }
+
+    public static void main(String[] args) throws ParseException {
+        String dateStr = "20180801-10:46:03.780";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HH:mm:ss.SSS");
+        Date date = sdf.parse(dateStr);
+        System.out.println(date);
+    }
 }

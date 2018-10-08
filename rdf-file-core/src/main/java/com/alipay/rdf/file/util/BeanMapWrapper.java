@@ -47,7 +47,8 @@ public class BeanMapWrapper {
             BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor pd : propertyDescriptors) {
-                BEANINFO_CACHE.put(pd.getName(), pd);
+                // yjk 修改 属性名称全部大写
+                BEANINFO_CACHE.put(pd.getName().toUpperCase(), pd);
             }
         } catch (Exception e) {
             throw new RdfFileException(e, RdfErrorEnum.INSTANTIATION_ERROR);
@@ -65,15 +66,21 @@ public class BeanMapWrapper {
         if (isMap) {
             ((Map) bean).put(propertyName, value);
         } else {
-            PropertyDescriptor pd = BEANINFO_CACHE.get(propertyName);
+            // yjk 修改 属性名称全部大写
+            PropertyDescriptor pd = BEANINFO_CACHE.get(propertyName.toUpperCase());
             if (null == pd || null == pd.getWriteMethod()) {
                 throw new RuntimeException(
                     bean.getClass().getName() + "没有" + propertyName + "属性对应的写方法");
             }
 
             try {
-                pd.getWriteMethod().invoke(bean, new Object[] { value });
+                // yjk 判断新增
+                if (null != value) {
+                    pd.getWriteMethod().invoke(bean, new Object[]{value});
+                }
             } catch (Exception e) {
+                // yjk 新增
+                System.out.println(pd);
                 throw new RdfFileException(e, RdfErrorEnum.TYPE_CONVERTION_ERROR);
             }
         }

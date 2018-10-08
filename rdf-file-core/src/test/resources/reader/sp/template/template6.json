@@ -1,0 +1,126 @@
+{
+  "head":[
+    "BeginString|起始标识符|Required|String",
+    "Version|版本|String|Required",
+    "BodyLength|数据长度|Long|Required",
+    "TotNumTradeReports|文件体记录数|Integer|Required",
+    "MDReportID|行情序号|Long",
+    "SenderCompID|发送方|String|Required",
+    "MDTime|行情时间|Date:yyyyMMdd-HH:mm:ss.SSS",
+    "MDUpdateType|发送方式|String|Required",
+    "MDSesStatus|市场行情状态|String|Required"
+  ],
+  "bodyTemplateConfigs":[
+    {
+      "name": "template-MD001",
+      "templateCnds": [
+        "MDStreamID|行情数据类型|default:MD001"
+      ],
+      "templateColInfos": [
+        "MDStreamID|行情数据类型|Required",
+        "SecurityID|产品代码|Required",
+        "Symbol|产品名称|Required",
+        "TradeVolume|成交数量|Long",
+        "TotalValueTraded|成交金额|BigDecimal",
+        "PreClosePx|昨日收盘价|BigDecimal",
+        "OpenPrice|今日开盘价|BigDecimal",
+        "HighPrice|最高价|BigDecimal",
+        "LowPrice|最低价|BigDecimal",
+        "TradePrice|最新价|BigDecimal",
+        "ClosePx|今收盘价|BigDecimal",
+        "TradingPhaseCode|指数实时阶段及标志",
+        "Timestamp|时间戳|Date:HH:mm:ss.SSS"
+      ]
+    },
+    {
+      "name": "template-MD0023",
+      "templateCnds": [
+        "MDStreamID|行情数据类型|default:MD002,MD003"
+      ],
+      "templateColInfos": [
+        "MDStreamID|行情数据类型|Required",
+        "SecurityID|产品代码|Required",
+        "Symbol|产品名称|Required",
+        "TradeVolume|成交数量|Long",
+        "TotalValueTraded|成交金额|BigDecimal",
+        "PreClosePx|昨日收盘价|BigDecimal",
+        "OpenPrice|今日开盘价|BigDecimal",
+        "HighPrice|最高价|BigDecimal",
+        "LowPrice|最低价|BigDecimal",
+        "TradePrice|最新价|BigDecimal",
+        "ClosePx|今收盘价|BigDecimal",
+        "BuyPrice1|申买价一|BigDecimal",
+        "BuyVolume1|申买量一|Long",
+        "SellPrice1|申卖价一|BigDecimal",
+        "SellVolume1|申卖量一|Long",
+        "BuyPrice2|申买价二|BigDecimal",
+        "BuyVolume2|申买量二|Long",
+        "SellPrice2|申卖价二|BigDecimal",
+        "SellVolume2|申卖量二|Long",
+        "BuyPrice3|申买价三|BigDecimal",
+        "BuyVolume3|申买量三|Long",
+        "SellPrice3|申卖价三|BigDecimal",
+        "SellVolume3|申卖量三|Long",
+        "BuyPrice4|申买价四|BigDecimal",
+        "BuyVolume4|申买量四|Long",
+        "SellPrice4|申卖价四|BigDecimal",
+        "SellVolume4|申卖量四|Long",
+        "BuyPrice5|申买价五|BigDecimal",
+        "BuyVolume5|申买量五|Long",
+        "SellPrice5|申卖价五|BigDecimal",
+        "SellVolume5|申卖量五|Long",
+        "TradingPhaseCode|指数实时阶段及标志",
+        "Timestamp|时间戳|Date:HH:mm:ss.SSS"
+      ]
+    },
+    {
+      "name": "template-MD004",
+      "templateCnds": [
+        "MDStreamID|行情数据类型|default:MD004"
+      ],
+      "templateColInfos": [
+        "MDStreamID|行情数据类型|Required",
+        "SecurityID|产品代码|Required",
+        "Symbol|产品名称|Required",
+        "TradeVolume|成交数量|Long",
+        "TotalValueTraded|成交金额|BigDecimal",
+        "PreClosePx|昨日收盘价|BigDecimal",
+        "OpenPrice|今日开盘价|BigDecimal",
+        "HighPrice|最高价|BigDecimal",
+        "LowPrice|最低价|BigDecimal",
+        "TradePrice|最新价|BigDecimal",
+        "ClosePx|今收盘价|BigDecimal",
+        "BuyPrice1|申买价一|BigDecimal",
+        "BuyVolume1|申买量一|Long",
+        "SellPrice1|申卖价一|BigDecimal",
+        "SellVolume1|申卖量一|Long",
+        "BuyPrice2|申买价二|BigDecimal",
+        "BuyVolume2|申买量二|Long",
+        "SellPrice2|申卖价二|BigDecimal",
+        "SellVolume2|申卖量二|Long",
+        "BuyPrice3|申买价三|BigDecimal",
+        "BuyVolume3|申买量三|Long",
+        "SellPrice3|申卖价三|BigDecimal",
+        "SellVolume3|申卖量三|Long",
+        "BuyPrice4|申买价四|BigDecimal",
+        "BuyVolume4|申买量四|Long",
+        "SellPrice4|申卖价四|BigDecimal",
+        "SellVolume4|申卖量四|Long",
+        "BuyPrice5|申买价五|BigDecimal",
+        "BuyVolume5|申买量五|Long",
+        "SellPrice5|申卖价五|BigDecimal",
+        "SellVolume5|申卖量五|Long",
+        "PreCloseIOPV|基金T-1日收盘时刻IOPV|BigDecimal",
+        "IOPV|基金IOPV|BigDecimal",
+        "TradingPhaseCode|指数实时阶段及标志",
+        "Timestamp|时间戳|Date:HH:mm:ss.SSS"
+      ]
+    }
+  ],
+  "tail": [
+    "EndString|结束标识符",
+    "CheckSum|校验和"
+  ],
+  "protocol":"SP",
+  "columnSplit":"|"
+}

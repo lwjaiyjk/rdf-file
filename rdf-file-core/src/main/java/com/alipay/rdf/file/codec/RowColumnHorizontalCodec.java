@@ -115,10 +115,9 @@ public class RowColumnHorizontalCodec {
         }
         int splitLength = startWithSplit ? columnMetas.size() + 1 : columnMetas.size();
         splitLength = endWithSplit ? splitLength + 1 : splitLength;
-        
-        
-        
-        if (column.length != splitLength) {
+
+        // 不一定要模板的列数和实际的列数相等，因为有些数据为了兼容和扩展，实际数据的列数大于模板的列数
+        if (column.length < splitLength) {
             throw new RdfFileException(
                 "rdf-file#RowColumnHorizontalCodec.deserialize fileConfig=" + fileConfig + ", line="
                                        + line + "模板定义列数=" + column.length + ", 实际列数=" + splitLength,
@@ -126,7 +125,7 @@ public class RowColumnHorizontalCodec {
         }
 
         int statIndex = fileMeta.isStartWithSplit(rowType) ? 1 : 0;
-        int endIndex = fileMeta.isEndWithSplit(rowType) ? column.length - 1 : column.length;
+        int endIndex = fileMeta.isEndWithSplit(rowType) ? splitLength - 1 : splitLength;
 
         for (int i = statIndex; i < endIndex; i++) {
             try {

@@ -34,9 +34,9 @@ public class SpFileSplitReaderTest {
 
     @Test
     public void testReadSliceFile() throws Exception {
-        String filePath = File.class.getResource("/reader/sp/data/data_split1.txt").getPath();
+        String filePath = File.class.getResource("/reader/sp/data/multi_template_data.txt").getPath();
 
-        FileConfig config = new FileConfig(filePath, "/reader/sp/template/template4.json",
+        FileConfig config = new FileConfig(filePath, "/reader/sp/template/template5.json",
             new StorageConfig("nas"));
 
         FileSplitter splitter = FileFactory.createSplitter(config.getStorageConfig());
